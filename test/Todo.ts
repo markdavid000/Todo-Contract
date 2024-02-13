@@ -21,7 +21,7 @@ describe("TODO", function () {
   }
 
   describe("Deployment", function () {
-    it("Should be a to set a Task", async function () {
+    it("Should be able to set a Task", async function () {
       const { toDoContract } = await loadFixture(deployToDoFixture);
 
       const todoToBeCreated = {
@@ -57,12 +57,12 @@ describe("TODO", function () {
     it("Should throw an error if Task does not exist ", async () => {
       const { toDoContract } = await loadFixture(deployToDoFixture);
 
-      await expect(toDoContract.getTask(0)).to.be.revertedWith(
+      await expect(toDoContract.getTask(1)).to.be.revertedWith(
         "No where to be found"
       );
     });
 
-    it("Should be able to mark a todo as done", async () => {
+    it("Should be able to mark a Task as done", async () => {
       const { toDoContract } = await loadFixture(deployToDoFixture);
 
       const todoObject = {
@@ -77,6 +77,36 @@ describe("TODO", function () {
       const todoItem = await toDoContract.getTask(0);
 
       expect(todoItem.isDone).to.equal(true);
+    });
+
+    it("Should throw an error if the Task does not exist when updating ", async () => {
+      const { toDoContract } = await loadFixture(deployToDoFixture);
+
+      await expect(toDoContract.setIsDone(0)).to.be.revertedWith(
+        "No where to be found"
+      );
+    });
+
+    it("Should be able to delete a todo", async () => {
+      const { toDoContract } = await loadFixture(deployToDoFixture);
+
+      const todoObject = {
+        title: "Wash Cloth",
+        description: "Wash the cloth in the washing machine",
+      };
+      const todoObject2 = {
+        title: "Pick Cloth",
+        description: "Pick the cloth in the washing machine",
+      };
+
+      await toDoContract.setTask(todoObject.title, todoObject.description);
+      await toDoContract.setTask(todoObject2.title, todoObject2.description);
+
+      await toDoContract.deleteTask(0);
+
+      const todoItem2 = await toDoContract.getTask(0);
+
+      expect(todoItem2.title).to.be.equals(todoObject2.title);
     });
   });
 });
