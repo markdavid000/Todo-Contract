@@ -21,7 +21,7 @@ describe("TODO", function () {
   }
 
   describe("Deployment", function () {
-    it("Should set the a Task", async function () {
+    it("Should be a to set a Task", async function () {
       const { toDoContract } = await loadFixture(deployToDoFixture);
 
       const todoToBeCreated = {
@@ -39,7 +39,7 @@ describe("TODO", function () {
       expect(todoItemCreated.title).to.equal(todoToBeCreated.title);
     });
 
-    it("Should be able to get a todo", async () => {
+    it("Should be able to get a Task", async () => {
       const { toDoContract } = await loadFixture(deployToDoFixture);
 
       const todoObject = {
@@ -52,6 +52,31 @@ describe("TODO", function () {
       const todoItem = await toDoContract.getTask(0);
 
       expect(todoItem.title).to.not.equal("");
+    });
+
+    it("Should throw an error if Task does not exist ", async () => {
+      const { toDoContract } = await loadFixture(deployToDoFixture);
+
+      await expect(toDoContract.getTask(0)).to.be.revertedWith(
+        "No where to be found"
+      );
+    });
+
+    it("Should be able to mark a todo as done", async () => {
+      const { toDoContract } = await loadFixture(deployToDoFixture);
+
+      const todoObject = {
+        title: "Wash Cloth",
+        description: "Wash the cloth in the washing machine",
+      };
+
+      await toDoContract.setTask(todoObject.title, todoObject.description);
+
+      await toDoContract.setIsDone(0);
+
+      const todoItem = await toDoContract.getTask(0);
+
+      expect(todoItem.isDone).to.equal(true);
     });
   });
 });
