@@ -34,9 +34,24 @@ import {
           todoToBeCreated.description
         );
   
-        const todoItemCreated = await toDoContract.setTask(0);
+        const todoItemCreated = await toDoContract.getTask(0);
   
         expect(todoItemCreated.title).to.equal(todoToBeCreated.title);
+      });
+
+      it("Should be able to get a todo", async () => {
+        const { toDoContract } = await loadFixture(deployToDoFixture);
+  
+        const todoObject = {
+          title: "Wash Cloth",
+          description: "Wash the cloth in the washing machine",
+        };
+  
+        await toDoContract.setTask(todoObject.title, todoObject.description);
+  
+        const todoItem = await toDoContract.getTask(0);
+  
+        expect(todoItem.title).to.not.equal("");
       });
     });
   });
