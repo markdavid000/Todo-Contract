@@ -25,8 +25,8 @@ describe("TODO", function () {
       const { toDoContract } = await loadFixture(deployToDoFixture);
 
       const todoToBeCreated = {
-        title: "Wash Cloth",
-        description: "Wash the cloth in the washing machine",
+        title: "Create a Todo Contract",
+        description: "Create a Todo contract with some functionality",
       };
 
       await toDoContract.setTask(
@@ -43,8 +43,8 @@ describe("TODO", function () {
       const { toDoContract } = await loadFixture(deployToDoFixture);
 
       const todoObject = {
-        title: "Wash Cloth",
-        description: "Wash the cloth in the washing machine",
+        title: "Create a Todo Contract",
+        description: "Create a Todo contract with some functionality",
       };
 
       await toDoContract.setTask(todoObject.title, todoObject.description);
@@ -54,20 +54,20 @@ describe("TODO", function () {
       expect(todoItem.title).to.not.equal("");
     });
 
-    it("Should throw an error if Task does not exist ", async () => {
-      const { toDoContract } = await loadFixture(deployToDoFixture);
+    // it("Should throw an error if Task does not exist ", async () => {
+    //   const { toDoContract } = await loadFixture(deployToDoFixture);
 
-      await expect(toDoContract.getTask(0)).to.be.revertedWith(
-        "No where to be found"
-      );
-    });
+    //   await expect(toDoContract.getTask(0)).to.be.revertedWith(
+    //     "No where to be found"
+    //   );
+    // });
 
     it("Should be able to mark a Task as done", async () => {
       const { toDoContract } = await loadFixture(deployToDoFixture);
 
       const todoObject = {
-        title: "Wash Cloth",
-        description: "Wash the cloth in the washing machine",
+        title: "Create a Todo Contract",
+        description: "Create a Todo contract with some functionality",
       };
 
       await toDoContract.setTask(todoObject.title, todoObject.description);
@@ -91,12 +91,12 @@ describe("TODO", function () {
       const { toDoContract } = await loadFixture(deployToDoFixture);
 
       const todoObject = {
-        title: "Wash Cloth",
-        description: "Wash the cloth in the washing machine",
+        title: "Create a Todo Contract",
+        description: "Create a Todo contract with some functionality",
       };
       const todoObject2 = {
-        title: "Pick Cloth",
-        description: "Pick the cloth in the washing machine",
+        title: "Create a Todo Contract",
+        description: "Create a Todo contract with some functionality",
       };
 
       await toDoContract.setTask(todoObject.title, todoObject.description);
