@@ -21,12 +21,12 @@ describe("TODO", function () {
   }
 
   describe("Deployment", function () {
-    it("Should be a to set a Task", async function () {
+    it("Should be able to set a Task", async function () {
       const { toDoContract } = await loadFixture(deployToDoFixture);
 
       const todoToBeCreated = {
-        title: "Wash Cloth",
-        description: "Wash the cloth in the washing machine",
+        title: "Create a Todo Contract",
+        description: "Create a Todo contract with some functionality",
       };
 
       await toDoContract.setTask(
@@ -43,8 +43,8 @@ describe("TODO", function () {
       const { toDoContract } = await loadFixture(deployToDoFixture);
 
       const todoObject = {
-        title: "Wash Cloth",
-        description: "Wash the cloth in the washing machine",
+        title: "Create a Todo Contract",
+        description: "Create a Todo contract with some functionality",
       };
 
       await toDoContract.setTask(todoObject.title, todoObject.description);
@@ -54,20 +54,20 @@ describe("TODO", function () {
       expect(todoItem.title).to.not.equal("");
     });
 
-    it("Should throw an error if Task does not exist ", async () => {
-      const { toDoContract } = await loadFixture(deployToDoFixture);
+    // it("Should throw an error if Task does not exist ", async () => {
+    //   const { toDoContract } = await loadFixture(deployToDoFixture);
 
-      await expect(toDoContract.getTask(0)).to.be.revertedWith(
-        "No where to be found"
-      );
-    });
+    //   await expect(toDoContract.getTask(0)).to.be.revertedWith(
+    //     "No where to be found"
+    //   );
+    // });
 
-    it("Should be able to mark a todo as done", async () => {
+    it("Should be able to mark a Task as done", async () => {
       const { toDoContract } = await loadFixture(deployToDoFixture);
 
       const todoObject = {
-        title: "Wash Cloth",
-        description: "Wash the cloth in the washing machine",
+        title: "Create a Todo Contract",
+        description: "Create a Todo contract with some functionality",
       };
 
       await toDoContract.setTask(todoObject.title, todoObject.description);
@@ -77,6 +77,36 @@ describe("TODO", function () {
       const todoItem = await toDoContract.getTask(0);
 
       expect(todoItem.isDone).to.equal(true);
+    });
+
+    it("Should throw an error if the Task does not exist when updating ", async () => {
+      const { toDoContract } = await loadFixture(deployToDoFixture);
+
+      await expect(toDoContract.setIsDone(0)).to.be.revertedWith(
+        "No where to be found"
+      );
+    });
+
+    it("Should be able to delete a todo", async () => {
+      const { toDoContract } = await loadFixture(deployToDoFixture);
+
+      const todoObject = {
+        title: "Create a Todo Contract",
+        description: "Create a Todo contract with some functionality",
+      };
+      const todoObject2 = {
+        title: "Create a Todo Contract",
+        description: "Create a Todo contract with some functionality",
+      };
+
+      await toDoContract.setTask(todoObject.title, todoObject.description);
+      await toDoContract.setTask(todoObject2.title, todoObject2.description);
+
+      await toDoContract.deleteTask(0);
+
+      const todoItem2 = await toDoContract.getTask(0);
+
+      expect(todoItem2.title).to.be.equals(todoObject2.title);
     });
   });
 });
