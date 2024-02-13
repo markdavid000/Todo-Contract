@@ -57,7 +57,7 @@ describe("TODO", function () {
     it("Should throw an error if Task does not exist ", async () => {
       const { toDoContract } = await loadFixture(deployToDoFixture);
 
-      await expect(toDoContract.getTask(1)).to.be.revertedWith(
+      await expect(toDoContract.getTask(0)).to.be.revertedWith(
         "No where to be found"
       );
     });
